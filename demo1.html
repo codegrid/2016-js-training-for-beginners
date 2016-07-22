@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<style>
+.tabBody1, .tabBody2{
+	width: 280px;
+	padding: 10px;
+	border: 1px solid #000;
+}
+</style>
+</head>
+<body>
+
+<div>
+	<button class="tab1">tab1</button>
+	<button class="tab2">tab2</button>
+</div>
+<div class="tabBody1">tabBody1 contents</div>
+<div class="tabBody2" style="display: none;">tabBody2 contents</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script>
+var $tab1 = $( '.tab1' );
+var $tab2 = $( '.tab2' );
+
+var $tabBody1 = $( '.tabBody1' );
+var $tabBody2 = $( '.tabBody2' );
+
+$tab1.on( 'click', function () {
+
+	$tabBody1.show();
+	$tabBody2.hide();
+
+} );
+
+$tab2.on( 'click', function () {
+
+	$tabBody1.hide();
+	$tabBody2.show();
+
+} );
+</script>
+
+</body>
+</html>

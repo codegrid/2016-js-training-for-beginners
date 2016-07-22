@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<style>
+*{font-family: sans-serif;font-size: 16px;}
+caption{
+	text-align: left;
+}
+th, td{
+	border: 1px solid #ccc;
+}
+</style>
+</head>
+<body>
+
+入力金額
+<input type="number" id="amount" value="100">
+<select id="currency">
+	<option value="JPY">円</option>
+	<option value="USD">ドル</option>
+	<option value="EUR">ユーロ</option>
+	<option value="GBP">ポンド</option>
+</select>
+
+<div id="result"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script>
+var dispatcher = $( {} );
+
+var model = {
+
+	_amount  : 100,
+	_currency: 'JPY',
+
+	getAmount: function () {
+
+		return this._amount;
+
+	},
+
+	setAmount: function ( val ) {
+
+		this._amount = val;
+		dispatcher.trigger( 'change' );
+
+	},
+
+	getCurrency: function () {
+
+		return this._currency;
+
+	},
+
+	setCurrency: function ( val ) {
+
+		this._currency = val;
+		dispatcher.trigger( 'change' );
+
+	},
+
+};
+
+// 値の計算補助用のレート
+var vsJPY = {
+  'JPY': 1,   // 1円     → 1円
+  'USD': 110, // 1ドル   → 110円
+  'EUR': 130, // 1ユーロ → 130円
+  'GBP': 150  // 1ポンド → 150円
+};
+
+$result = $( '#result' );
+
+var render = function () {
+
+	// レートの計算式
+	var jpy = model.getAmount() / vsJPY[ 'JPY' ] * vsJPY[ model.getCurrency() ];
+	var usd = model.getAmount() / vsJPY[ 'USD' ] * vsJPY[ model.getCurrency() ];
+	var eur = model.getAmount() / vsJPY[ 'EUR' ] * vsJPY[ model.getCurrency() ];
+	var gbp = model.getAmount() / vsJPY[ 'GBP' ] * vsJPY[ model.getCurrency() ];
+
+	// 計算結果をHTMLにして出力
+	var htmlSrc =
+	'<table>' +
+		'<caption>両替後</caption>' +
+		'<tr><th>￥</th><td>' + jpy + ' 円</td></tr>' +
+		'<tr><th>$</th><td>' + usd + ' ドル</td></tr>' +
+		'<tr><th>€</th><td>' + eur + ' ユーロ</td></tr>' +
+		'<tr><th>£</th><td>' + gbp + ' ポンド</td></tr>' +
+	'</table>';
+
+	$result.html( htmlSrc );
+
+}
+
+render();
+dispatcher.on( 'change', render );
+
+
+var $amount = $( '#amount' );     // input要素
+var $currency = $( '#currency' ); // select要素
+
+$amount.on( 'keyup', function () {
+
+	model.setAmount( parseInt( $amount.val() ) );
+
+} );
+
+$amount.on( 'change', function () {
+
+	model.setAmount( parseInt( $amount.val() ) );
+
+} );
+
+$currency.on( 'change', function () {
+
+	model.setCurrency( $currency.val() );
+
+} );
+
+
+
+
+
+</script>
+
+</body>
+</html>
