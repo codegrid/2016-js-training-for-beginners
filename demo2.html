@@ -22,27 +22,27 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script>
-// 「状態」保存場所 ---
+// 操作結果の状態 保存場所 ---
 var visibleTab = 'tab1';
 
 
-// 「表示」機能 ---
+// 表示更新 機能 ---
 var updateView = function () {
 
-	var $tabBody1 = $( '.tabBody1' );
-	var $tabBody2 = $( '.tabBody2' );
+  var $tabBody1 = $( '.tabBody1' );
+  var $tabBody2 = $( '.tabBody2' );
 
-	if ( visibleTab === 'tab1' ) {
+  if ( visibleTab === 'tab1' ) {
 
-		$tabBody1.show();
-		$tabBody2.hide();
+    $tabBody1.show();
+    $tabBody2.hide();
 
-	} else if ( visibleTab === 'tab2' ) {
+  } else if ( visibleTab === 'tab2' ) {
 
-		$tabBody1.hide();
-		$tabBody2.show();
+    $tabBody1.hide();
+    $tabBody2.show();
 
-	}
+  }
 
 }
 
@@ -53,22 +53,22 @@ var $tab2 = $( '.tab2' );
 
 $tab1.on( 'click', function () {
 
-	visibleTab = 'tab1'; // クリックされると状態を書き換える
-	updateView();        // その後再表示
+  visibleTab = 'tab1'; // クリックされると状態のみを書き換える
+  updateView();        // その後再表示更新
 
 } );
 
 $tab2.on( 'click', function () {
 
-	visibleTab = 'tab2';
-	updateView();
+  visibleTab = 'tab2';
+  updateView();
 
 } );
 
 if ( /#tab2/.test( location.hash ) ) {
 
-	visibleTab = 'tab2';
-	updateView();
+  visibleTab = 'tab2';
+  updateView();
 
 }
 </script>
