@@ -22,8 +22,22 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
 <script>
-// 操作結果の状態 保存場所 ---
+// イベント管理用オブジェクト
+var dispatcher = $( {} );
+
+
+// 操作結果 保存場所 ---
 var visibleTab = 'tab1';
+
+// 上記の`visibleTab`の内容を変更する場合、
+// 必ずこの関数を使う
+var setVisibleTab = function ( value ) {
+
+  visibleTab = value;
+  // カスタムイベント「dataChange」を発行する
+  dispatcher.trigger( 'dataChange' );
+
+}
 
 
 // 表示更新 機能 ---
@@ -46,6 +60,10 @@ var updateView = function () {
 
 }
 
+// 「dataChange」イベントが発行されると自動で`updateView`が実行される。
+// つまり、`setVisibleTab( 値 )`で値が変更すると同時に再描画される。
+dispatcher.on( 'dataChange', updateView );
+
 
 // 操作 ---
 var $tab1 = $( '.tab1' );
@@ -53,22 +71,19 @@ var $tab2 = $( '.tab2' );
 
 $tab1.on( 'click', function () {
 
-  visibleTab = 'tab1'; // クリックされると状態のみを書き換える
-  updateView();        // その後再表示更新
+  setVisibleTab( 'tab1' );
 
 } );
 
 $tab2.on( 'click', function () {
 
-  visibleTab = 'tab2';
-  updateView();
+  setVisibleTab( 'tab2' );
 
 } );
 
-if ( /#tab2/.test( location.hash ) ) {
+if ( /tab2/.test( location.hash ) ) {
 
-  visibleTab = 'tab2';
-  updateView();
+  setVisibleTab( 'tab2' );
 
 }
 </script>
